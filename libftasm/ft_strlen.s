@@ -11,7 +11,7 @@
 _ft_strlen:
 	xorq	%rax, %rax
 LL1B:
-	cmpq	$0, (%rdi, %rax, 1)
+	cmpb	$0, (%rdi, %rax, 1)
 	je	LL1E
 	incq	%rax
 	jmp	LL1B
