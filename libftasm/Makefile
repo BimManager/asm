@@ -5,12 +5,12 @@ GAS	:= as
 LD	:= ld
 
 ARFLAGS	:=
-ASFLAGS	:=
+ASFLAGS	:= -arch x86_64
 LDFLAGS	:= -arch x86_64 -macosx_version_min 10.13 -lc -e _main
 
 NAME	:= test
 AMBS	:= $(wildcard *.s)
-OBJS	:= main.o ft_strlen.o ft_puts.o
+OBJS	:= main.o ft_bzero.o ft_strlen.o ft_puts.o 
 
 
 .PHONY : all clean fclean re
