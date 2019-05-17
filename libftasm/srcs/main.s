@@ -7,6 +7,8 @@
 L_.str:
 	.asciz "Foo"
 	.set len, . - L_.str
+	.set a,0x61
+	.set z,0x7a
 	
 .section __TEXT,__text,regular,pure_instructions
 	.globl _main
@@ -38,8 +40,18 @@ LL1_E:
 	leaq	L_.str(%rip), %rdi
 	movq	$len, %rsi
 	callq	_ft_bzero
+
+	# islower
+	movq	$0x128, %rdi
+	callq	_ft_islower
+
+	# is
+	movq	$0x6a, %rdi
+	movq	$a, %rsi
+	movq	$z, %rdx
+	callq	_ft_is
 	
-	xorq	%rax, %rax
+#	xorq	%rax, %rax
 	popq	%r13
 	popq	%r12
 	popq	%rbx
