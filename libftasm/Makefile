@@ -36,7 +36,7 @@ $(OBJDIR) :
 	mkdir $@
 
 clean :
-	rm -f $(OBJS)
+	rm -f $(OBJDIR)/*.o
 
 fclean : clean
 	rm -f $(NAME) $(ARNAME)
