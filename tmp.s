@@ -1,7 +1,7 @@
 #
 #	tmp.s
 #	A template for assembly language
-#	using AT&T syntax
+#	AT&T syntax
 #
 
 .section __DATA,__data

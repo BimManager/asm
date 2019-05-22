@@ -1,20 +1,24 @@
 #
-#	ft_islower.s
+#	ft_isalpha.s
 #	AT&T syntax
 #
 
 .section __DATA,__data
-	.set a,0x61
-	.set z,0x7a
+
 .section __DATA,__bss
 	.lcomm buffer,256,4	# .lcomm name, size [, align]
 	
 .section __TEXT,__text,regular,pure_instructions
-	.globl _ft_islower
-_ft_islower:
-	movq	$a, %rsi
-	movq	$z, %rdx
-	callq	_ft_isbtwn
+	.globl _ft_isalpha
+_ft_isalpha:
+	xorq	%rcx, %rcx
+	callq	_ft_islower
+	cmpq	$0x0, %rax
+	jne	end
+	callq	_ft_isupper
+	cmpq	%rcx, %rax
+	cmovz	%rcx, %rax
+end:	
 	retq
 
 
