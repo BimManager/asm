@@ -41,9 +41,25 @@ LL1_E:
 	movq	$len, %rsi
 	callq	_ft_bzero
 
+	# islower
+	movq	$0x48, %rdi
+	callq	_ft_islower
+
+	# isupper
+	movq	$0x58, %rdi
+	callq	_ft_isupper
+
 	# isdigit
 	movq	$0x30, %rdi
 	callq	_ft_isdigit
+
+	# isalph
+	movq	$0x30, %rdi
+	callq	_ft_isalpha
+
+	# isascii
+	movq	$0xff, %rdi
+	callq	_ft_isascii
 
 #	xorq	%rax, %rax
 	popq	%r13
