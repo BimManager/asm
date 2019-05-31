@@ -28,6 +28,8 @@ _main:
 	lea	rdi, [rel buffer]
 	lea	rsi, [rel L02]
 	call	_ft_strcpy
+	mov	rdi, rax
+	call	_ft_puts
 	lea	rdi, [rel L02]
 	call	_ft_strdup
 	mov	rdi, rax
@@ -36,6 +38,15 @@ _main:
 	pop	rdi
 	sub	rsp, 0x8
 	call	_free
+	add	rsp, 0x8
+
+	lea	rdi, [rel L02]
+	mov	rsi, 'x'
+	call	_ft_strchr
+
+	mov	rdi, rax
+	sub	rsp, 0x8
+	call	_ft_puts
 	add	rsp, 0x8
 	xor	rax, rax
 	ret
@@ -56,9 +67,9 @@ _ft_strlen:
 
 ;; void *memset(void *b, int c, size_t len)
 _ft_memset:
-	mov	al, sil
 	mov	ecx, edx
 	mov	rdx, rdi	; store rdi
+	mov	al, sil
 	cld			; clear DF
 	rep stosb
 	mov	rax, rdx
@@ -69,9 +80,15 @@ _ft_strcpy:
 	mov	rdx, rdi
 	mov	rdi, rsi
 	call	_ft_strlen
+	mov	rdi, rdx
+	
 	mov	ecx, eax
 	inc	ecx
-	mov	rdi, rdx
+	shr	ecx, 0x2
+
+	rep movsd
+	mov	ecx, eax
+	and	ecx, 0x3
 	rep movsb
 	mov	rax, rdx
 	ret
@@ -104,6 +121,8 @@ _ft_strdup:
 _ft_puts:
 	push	rbx
 	push	r12
+	cmp	rdi, 0x0
+	je	end
 	mov	rbx, rdi
 	xor	r12, r12
 loop:
@@ -122,5 +141,24 @@ end:
 	pop	r12
 	pop	rbx
 	ret
+
+;; char *strchr(char *s, int c)
+_ft_strchr:
+	push	rdi
+	push	rsi
 	
+	call	_ft_strlen
+	mov	ecx, eax
 	
+	pop	rsi
+	pop	rdi
+	mov	al, sil
+	
+	repne scasb
+	jne	none
+	dec	rdi
+	mov	rax, rdi
+	ret
+none:	
+	xor	eax, eax
+	ret
