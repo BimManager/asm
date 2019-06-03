@@ -7,8 +7,8 @@
 #
 
 #.section __DATA,__data
-L01:	
 	.data
+L01:		
 	.byte 42
 	.short 42
 	.long 42
@@ -19,16 +19,19 @@ L01:
 
 	.fill 69,4,0xfeadface # .fill rep_expr,fill_size,fill_expr
 
+	
 	.const_data
 L02:
 	.asciz "42"
 	.equ len, .-L02
 
+	
 #.section __DATA,__bss
 	.bss
 	.lcomm buffer,256,4	# .lcomm name, size [, align]
 	.comm g_buffer,256,4	# common symbol
 
+	
 #.section __TEXT,__text,regular,pure_instructions
 	.text
 	.macosx_version_min 10,13

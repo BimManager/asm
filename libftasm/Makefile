@@ -13,6 +13,7 @@ ARNAME	:= libftasm.a
 OBJDIR	:= objs
 OBJS	:= $(addprefix $(OBJDIR)/, ft_isbtwn.o ft_bzero.o ft_strlen.o ft_puts.o ft_islower.o ft_isupper.o ft_isalpha.o ft_isdigit.o ft_isascii.o)
 MAIN	:= $(addprefix $(OBJDIR)/, main.o)
+SRCDIR	:= $(SYNTAX) # environment variable
 
 vpath %.s : srcs
 
