@@ -19,7 +19,9 @@ L01:
 	.text
 	.macosx_version_min 10,13
 	.globl _main
+	.p2align 2
 _main:
+	pushq	%rbx
 	cmpq	$0x2, %rdi
 	jnz	exit
 
@@ -41,6 +43,14 @@ _main:
 	movq	fd(%rip), %rdi
 	movq	size(%rip), %rsi
 	callq	_ft_mmap
+	
+	# error handling
+	movq	%rsp, %rbx
+	andq	$-0x10, %rsp
+	movq	%rax, %rdi
+	callq	_strerror
+	movq	%rbx, %rsp
+
 	cmpq	$0x1, %rax
 	je	close
 	movq	%rax, addr(%rip)
@@ -50,7 +60,7 @@ _main:
 #	callq	_ft_toupper
 
 	# unmap
-	movq	fd(%rip), %rdi
+	movq	addr(%rip), %rdi
 	movq	size(%rip), %rsi
 	callq	_ft_munmap
 close:	
@@ -61,13 +71,14 @@ exit:
 	movq	fd(%rip), %rax
 	testq	%rax, %rax
 	jnz	close
+	popq	%rbx
 	retq
 
 # off_t lseek(int fildes, off_t offset, int whence) 
 _filesize:
 	movq	$0x0, %rsi		# offset = 0
 	movq	$0x2, %rdx		# SEEK_END = 0x2
-	movq	$0x2000199, %rax	# SYS_lseek = 199
+	movq	$0x20000c7, %rax	# SYS_lseek = 199
 	syscall
 	ret
 	
@@ -88,7 +99,7 @@ _ft_close:
 _ft_mmap:
 	movq	%rdi, %r8		# fd 
 	xorl	%edi, %edi		# addr = 0
-	movq	$0x1, %rdx		# prot = PROT_READ | PROT_WRITE
+	movq	$0x2, %rdx		# prot = PROT_READ (1) | PROT_WRITE (2)
 	movq	$0x0, %rcx		# flags = MAP_SHARED (1) [MAP_FILE (0)]
 	xorl	%r9d, %r9d		# offset = 0
 	movq	$0x20000c5, %rax	# SYS_mmap = 197
